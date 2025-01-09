@@ -30,12 +30,12 @@ class PostAdapter(private val lista: List<Post>) : RecyclerView.Adapter<PostAdap
         holder.userImage.setImageDrawable(userImage)
 
         holder.imageSave.setOnClickListener {
-            post.getSaved() = post.getSaved()
+            post.setSaved(!post.getSaved())
             holder.imageSave.setImageResource(if (post.getSaved()) R.drawable.saved else R.drawable.save)
         }
 
         holder.imagelike.setOnClickListener {
-            post.getLiked() = post.getLiked()
+            post.setLiked(post.getLiked())
             holder.imagelike.setImageResource(if (post.getLiked()) R.drawable.liked else R.drawable.like)
         }
     }
