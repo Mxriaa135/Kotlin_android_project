@@ -1,14 +1,14 @@
 package com.example.apppostagens.Model
 
 class Post (
-    private var saved: Boolean,
     private var description: String,
     private var image: Int,
-    private var liked: Boolean,
     private var date: String,
     name: User,
     userImage: User
 ) {
+    private var saved: Boolean = false
+    private var liked: Boolean = false
     var user: User? = null
     private var name: User
     private var userImage: User
