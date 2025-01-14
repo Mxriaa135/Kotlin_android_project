@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var list: RecyclerView
     private var listPosts: MutableList<Post> = mutableListOf()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         }
         createPost()
         list = findViewById(R.id.list)
-        var adapter = PostAdapter(listPosts)
-        var layoutManager = LinearLayoutManager(applicationContext)
+        val adapter = PostAdapter(listPosts)
+        val layoutManager = LinearLayoutManager(applicationContext)
 
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
@@ -38,10 +37,10 @@ class MainActivity : AppCompatActivity() {
     }
     fun createPost(){
         // Criando o usuário teste
-        var user1 = User("Amelia", R.drawable.black)
+        val user1 = User("Amelia", R.drawable.black)
         //Criando os posts testes
-        var post1 = Post("The beautiful sunset!", R.drawable.sunset, "01-02-2025", user1, user1)
-        var post2 = Post("My sweet cat <3", R.drawable.cat, "01-08-2025", user1, user1)
+        val post1 = Post("The beautiful sunset!", R.drawable.sunset, "01-02-2025", user1, user1)
+        val post2 = Post("My sweet cat <3", R.drawable.cat, "01-08-2025", user1, user1)
         listPosts.add(post1)
         listPosts.add(post2)
     }
