@@ -11,6 +11,8 @@ Este é um projeto pessoal de um aplicativo de postagens, inspirado em redes soc
 ## Tecnologias Utilizadas
 
 - **Kotlin:** Linguagem de programação principal do projeto.
+- **Java:** Utilizado para algumas funcionalidades, especialmente para manipulação de dados e lógica de negócios.
+- **XML:** Usado para definir os layouts e a interface do usuário.
 - **Android Studio:** IDE utilizada para desenvolvimento.
 
 ## Estrutura do Projeto
