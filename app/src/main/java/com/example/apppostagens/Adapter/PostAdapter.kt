@@ -1,5 +1,6 @@
 package com.example.apppostagens.Adapter
 
+import android.content.Intent
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -7,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.apppostagens.Activity.CommentActivity
 import com.example.apppostagens.Model.Post
 import com.example.apppostagens.R
 
@@ -54,8 +55,14 @@ class PostAdapter(private val list: List<Post>) : RecyclerView.Adapter<PostAdapt
             post.setLiked(!post.getLiked())
             holder.imagelike.setImageResource(if (post.getLiked()) R.drawable.liked else R.drawable.like)
         }
-    }
 
+        holder.imageComment.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, CommentActivity::class.java)
+            intent.putExtra("POST_ID", post.getId())
+            context.startActivity(intent)
+        }
+    }
     override fun getItemCount(): Int = list.size
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -67,5 +74,6 @@ class PostAdapter(private val list: List<Post>) : RecyclerView.Adapter<PostAdapt
         val imageSave: ImageView = itemView.findViewById(R.id.imageSave)
         val date: TextView = itemView.findViewById(R.id.date)
         val userNameDescription: TextView = itemView.findViewById(R.id.userNameDescription)
+        val imageComment: ImageView = itemView.findViewById(R.id.imageComment)
     }
 }
