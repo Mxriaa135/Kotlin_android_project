@@ -1,6 +1,7 @@
 package com.example.apppostagens.Model
 
 class Post (
+    private var id: Int,
     private var description: String,
     private var image: Int,
     private var date: String,
@@ -18,6 +19,14 @@ class Post (
         this.name = name
         this.userImage = userImage
         this.comments = ArrayList<Comment>()
+    }
+
+    fun getId(): Int{
+        return id
+    }
+
+    fun setId(id:Int){
+        this.id = id
     }
 
     fun getDescription(): String{
