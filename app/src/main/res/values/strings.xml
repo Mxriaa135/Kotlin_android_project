@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppPostagens</string>
+    <string name="titulo_comentario">Comentários</string>
 </resources>
