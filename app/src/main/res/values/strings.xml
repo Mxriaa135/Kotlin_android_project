@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">AppPostagens</string>
-    <string name="titulo_comentario">Comentários</string>
+    <string name="title_comment">Comments</string>
+    <string name="text_followers">Followers</string>
+    <string name="text_following">Following</string>
+    <string name="text_num_post">Posts</string>
+    <string name="bottom_navigation_home">Home</string>
+    <string name="bottom_navigation_add">Add</string>
+    <string name="bottom_navigation_profile">Profile</string>
 </resources>
