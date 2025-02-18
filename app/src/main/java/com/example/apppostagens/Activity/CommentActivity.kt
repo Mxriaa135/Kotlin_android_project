@@ -1,6 +1,7 @@
 package com.example.apppostagens.Activity
 
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -35,6 +36,11 @@ class CommentActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerComment, fragment)
             .commit()
+
+        val bttnBack = findViewById<ImageView>(R.id.imageArrowBack)
+        bttnBack.setOnClickListener {
+            finish()
+        }
 
     }
 
