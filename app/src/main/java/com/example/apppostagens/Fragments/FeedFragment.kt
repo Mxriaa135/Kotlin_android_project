@@ -11,12 +11,18 @@ import com.example.apppostagens.Adapter.PostAdapter
 import com.example.apppostagens.Model.Post
 import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class FeedFragment : Fragment() {
 
     private lateinit var list: RecyclerView
     private var listPosts: MutableList<Post> = mutableListOf()
+    private var reference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Post")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +34,6 @@ class FeedFragment : Fragment() {
 
         var view : View = inflater.inflate(R.layout.fragment_feed, container, false)
 
-        createPost()
         list = view.findViewById(R.id.list)
         var adapter = PostAdapter(listPosts)
         var layoutManager = LinearLayoutManager(context)
@@ -37,17 +42,18 @@ class FeedFragment : Fragment() {
         list.setHasFixedSize(true)
         list.adapter = adapter
 
+        reference.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot : DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val post = snapshot.getValue(Post::class.java)
+                    post?.let { listPosts.add(it) }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                //TODO("Not yet implemented")
+            }
+        })
+
         return view
     }
-
-    fun createPost(){
-        // Criando o usuário teste
-        var user1 = User("Amelia", R.drawable.black)
-        //Criando os posts testes
-        var post1 = Post(1,"The beautiful sunset!", R.drawable.sunset, "01-02-2025", user1, user1)
-        var post2 = Post(2,"My sweet cat <3", R.drawable.cat, "01-08-2025", user1, user1)
-        listPosts.add(post1)
-        listPosts.add(post2)
-    }
-
 }
