@@ -68,6 +68,11 @@ dependencies {
     // Add the dependency for the Firebase Authentication library
     implementation("com.google.firebase:firebase-auth")
 
-    // Add the dependency fot the Firebase Cloud Storage
+    // Add the dependency for the Firebase Cloud Storage
     implementation("com.google.firebase:firebase-storage")
+
+    // FirebaseUI Storage only
+    implementation("com.firebaseui:firebase-ui-storage:8.0.2")
+    // Add the dependency for the Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }
