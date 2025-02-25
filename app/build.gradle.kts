@@ -67,4 +67,7 @@ dependencies {
 
     // Add the dependency for the Firebase Authentication library
     implementation("com.google.firebase:firebase-auth:23.2.0")
+
+    // Add the dependency fot the Firebase Cloud Storage
+    implementation("com.google.firebase:firebase-storage:21.0.1")
 }
