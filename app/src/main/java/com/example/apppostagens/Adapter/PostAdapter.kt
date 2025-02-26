@@ -1,6 +1,7 @@
 package com.example.apppostagens.Adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.apppostagens.Activity.CommentActivity
 import com.example.apppostagens.Model.Post
 import com.example.apppostagens.R
@@ -22,46 +24,8 @@ class PostAdapter(private val list: List<Post>) : RecyclerView.Adapter<PostAdapt
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val post = list[position]
+        holder.bind(list[position])
 
-        val image = ContextCompat.getDrawable(holder.itemView.context, post.getImage())
-        val userImage = ContextCompat.getDrawable(holder.itemView.context, post.getUserImage().userImage)
-
-        holder.userName.text = post.getName().name
-        holder.userNameDescription.text = post.getName().name
-        holder.description.text = post.getDescription()
-        holder.imagePost.background = image
-        holder.userImage.setImageDrawable(userImage)
-        holder.date.text = post.getDate()
-
-        val gestureDetector = GestureDetector(holder.imagePost.context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onDoubleTap(e: MotionEvent): Boolean {
-                post.setLiked(true)
-                holder.imagelike.setImageResource(R.drawable.liked)
-                return true
-            }
-        })
-        holder.imagePost.setOnTouchListener { _, event ->
-            gestureDetector.onTouchEvent(event)
-            true
-        }
-
-        holder.imageSave.setOnClickListener {
-            post.setSaved(!post.getSaved())
-            holder.imageSave.setImageResource(if (post.getSaved()) R.drawable.saved else R.drawable.save)
-        }
-
-        holder.imagelike.setOnClickListener {
-            post.setLiked(!post.getLiked())
-            holder.imagelike.setImageResource(if (post.getLiked()) R.drawable.liked else R.drawable.like)
-        }
-
-        holder.imageComment.setOnClickListener {
-            val context = holder.itemView.context
-            val intent = Intent(context, CommentActivity::class.java)
-            intent.putExtra("POST_ID", post.getId())
-            context.startActivity(intent)
-        }
     }
     override fun getItemCount(): Int = list.size
 
@@ -75,5 +39,54 @@ class PostAdapter(private val list: List<Post>) : RecyclerView.Adapter<PostAdapt
         val date: TextView = itemView.findViewById(R.id.date)
         val userNameDescription: TextView = itemView.findViewById(R.id.userNameDescription)
         val imageComment: ImageView = itemView.findViewById(R.id.imageComment)
+
+        fun bind(post : Post){
+            userName.text = post.getUser().name
+            userNameDescription.text = post.getUser().name
+            description.text = post.getDescription()
+            date.text = post.getDate()
+
+            Glide.with(itemView.context)
+                .load(post.getImageUrl())
+                .placeholder(R.drawable.image)
+                .error(R.drawable.broken_image)
+                .into(imagePost)
+
+            Glide.with(itemView.context)
+                .load(post.getUser().userImage)
+                .placeholder(R.drawable.profile)
+                .error(R.drawable.profile)
+                .into(userImage)
+
+            val gestureDetector = GestureDetector(imagePost.context, object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDoubleTap(e: MotionEvent): Boolean {
+                    post.setLiked(true)
+                    imagelike.setImageResource(R.drawable.liked)
+                    return true
+                }
+            })
+            imagePost.setOnTouchListener { _, event ->
+                gestureDetector.onTouchEvent(event)
+                true
+            }
+
+            imageSave.setOnClickListener {
+                post.setSaved(!post.getSaved())
+                imageSave.setImageResource(if (post.getSaved()) R.drawable.saved else R.drawable.save)
+            }
+
+            imagelike.setOnClickListener {
+                post.setLiked(!post.getLiked())
+                imagelike.setImageResource(if (post.getLiked()) R.drawable.liked else R.drawable.like)
+            }
+
+            imageComment.setOnClickListener {
+                val context = itemView.context
+                val intent = Intent(context, CommentActivity::class.java)
+                intent.putExtra("POST_ID", post.getId())
+                context.startActivity(intent)
+            }
+        }
+
     }
 }
