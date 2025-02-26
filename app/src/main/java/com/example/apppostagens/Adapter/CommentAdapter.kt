@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.apppostagens.Model.Comment
 import com.example.apppostagens.R
 
@@ -21,10 +22,13 @@ class CommentAdapter(private val list: List<Comment>) : RecyclerView.Adapter<Com
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val comment = list[position]
 
-        val userImage = ContextCompat.getDrawable(holder.itemView.context, comment.getUserImage().userImage)
+        Glide.with(holder.itemView.context)
+            .load(comment.getUser().userImage)
+            .placeholder(R.drawable.profile)
+            .error(R.drawable.profile)
+            .into(holder.userImage)
 
-        holder.userName.text = comment.getName().name
-        holder.userImage.background = userImage
+        holder.userName.text = comment.getUser().name
         holder.text.text = comment.getText()
     }
 
