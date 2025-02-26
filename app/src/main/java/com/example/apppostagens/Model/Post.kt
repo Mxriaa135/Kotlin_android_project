@@ -1,24 +1,21 @@
 package com.example.apppostagens.Model
 
-class Post (
-    private var id: Int,
-    private var description: String,
-    private var image: Int,
-    private var date: String,
-    name: User,
-    userImage: User
-) {
+class Post () {
+    private var id: Int = 0
+    private var description: String = ""
+    private var imageUrl: String = ""
+    private var date: String = ""
     private var saved: Boolean = false
     private var liked: Boolean = false
-    var user: User? = null
-    private var name: User
-    private var userImage: User
-    private var comments: List<Comment>
+    private var user: User = User()
+    private var comments: List<Comment> = ArrayList<Comment>()
 
-    init {
-        this.name = name
-        this.userImage = userImage
-        this.comments = ArrayList<Comment>()
+    constructor(id: Int, description: String, imageUrl: String, date: String, user: User) : this(){
+        this.id = id
+        this.description = description
+        this.imageUrl = imageUrl
+        this.date = date
+        this.user = user
     }
 
     fun getId(): Int{
@@ -45,12 +42,12 @@ class Post (
         this.saved = saved
     }
 
-    fun getImage(): Int{
-        return image
+    fun getImageUrl(): String{
+        return imageUrl
     }
 
-    fun setImage(image: Int){
-        this.image = image
+    fun setImageUrl(image: String){
+        this.imageUrl = image
     }
 
     fun getLiked(): Boolean{
@@ -69,20 +66,12 @@ class Post (
         this.date = date
     }
 
-    fun getName(): User {
-        return name
+    fun getUser(): User {
+        return user
     }
 
-    fun setName(name: User) {
-        this.name = name
-    }
-
-    fun getUserImage(): User {
-        return userImage
-    }
-
-    fun setUserImage(userImage: User) {
-        this.userImage = userImage
+    fun setUser(user: User) {
+        this.user = user
     }
 
     fun getComments(): List<Comment> {
