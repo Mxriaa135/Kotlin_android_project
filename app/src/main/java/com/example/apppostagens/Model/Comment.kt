@@ -5,6 +5,12 @@ class Comment() {
     private var user: User = User()
     private var text: String = ""
 
+    constructor(post: Post, user: User, text: String) : this(){
+        this.post = post
+        this.user = user
+        this.text = text
+    }
+
     fun getPost(): Post{
         return post
     }
