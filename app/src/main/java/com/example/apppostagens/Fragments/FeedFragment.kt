@@ -35,25 +35,33 @@ class FeedFragment : Fragment() {
         var view : View = inflater.inflate(R.layout.fragment_feed, container, false)
 
         list = view.findViewById(R.id.list)
-        var adapter = PostAdapter(listPosts)
         var layoutManager = LinearLayoutManager(context)
-
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
+
+        var adapter = PostAdapter(listPosts)
         list.adapter = adapter
 
+        loadData(adapter)
+
+        return view
+    }
+    private fun loadData(adapter: PostAdapter){
         reference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(dataSnapshot : DataSnapshot) {
+                listPosts.clear()
+
                 for (snapshot in dataSnapshot.children) {
                     val post = snapshot.getValue(Post::class.java)
                     post?.let { listPosts.add(it) }
                 }
+
+                adapter.notifyDataSetChanged()
+
             }
             override fun onCancelled(error: DatabaseError) {
                 //TODO("Not yet implemented")
             }
         })
-
-        return view
     }
 }
