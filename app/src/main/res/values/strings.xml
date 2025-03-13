@@ -7,4 +7,8 @@
     <string name="bottom_navigation_home">Home</string>
     <string name="bottom_navigation_add">Add</string>
     <string name="bottom_navigation_profile">Profile</string>
+    <string name="text_sing_up">Cadastrar-se</string>
+    <string name="button_login">Entrar</string>
+    <string name="hint_login_email">Email</string>
+    <string name="hint_login_password">Senha</string>
 </resources>
