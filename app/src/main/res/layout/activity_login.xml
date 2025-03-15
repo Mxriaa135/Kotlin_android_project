@@ -5,8 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_login"
+    android:background="@drawable/background_gradient"
     tools:context=".Activity.LoginActivity">
+
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/emailLoginInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 
     <EditText
         android:id="@+id/emailLoginInput"
@@ -15,7 +26,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:height="48dp"
-        android:background="@drawable/background_login_input"
+        android:background="@drawable/background_input"
         android:backgroundTint="@color/white"
         android:hint="@string/hint_login_email"
         android:inputType="textEmailAddress"
@@ -36,7 +47,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/background_login_input"
+        android:background="@drawable/background_input"
         android:backgroundTint="@color/white"
         android:hint="@string/hint_login_password"
         android:inputType="textPassword"
@@ -56,7 +67,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/background_login_button"
+        android:background="@drawable/background_button"
         android:text="@string/button_login"
         app:layout_constraintBottom_toTopOf="@+id/textLoginSingUp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,16 +103,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textLoginSingUp" />
-
-    <ImageView
-        android:id="@+id/imageLogo"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/emailLoginInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
