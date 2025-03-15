@@ -11,4 +11,9 @@
     <string name="button_login">Entrar</string>
     <string name="hint_login_email">Email</string>
     <string name="hint_login_password">Senha</string>
+    <string name="hint_sing_up_username">Username</string>
+    <string name="hint_sing_up_name">Nome</string>
+    <string name="hint_sing_up_email">Email</string>
+    <string name="hint_sing_up_password">Crie uma senha</string>
+    <string name="button_sing_up">Criar conta</string>
 </resources>
