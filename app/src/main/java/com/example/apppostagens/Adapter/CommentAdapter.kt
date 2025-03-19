@@ -23,12 +23,12 @@ class CommentAdapter(private val list: List<Comment>) : RecyclerView.Adapter<Com
         val comment = list[position]
 
         Glide.with(holder.itemView.context)
-            .load(comment.getUser().userImage)
+            .load(comment.getUser().getUserImage())
             .placeholder(R.drawable.profile)
             .error(R.drawable.profile)
             .into(holder.userImage)
 
-        holder.userName.text = comment.getUser().name
+        holder.userName.text = comment.getUser().getUserImage()
         holder.text.text = comment.getText()
     }
 

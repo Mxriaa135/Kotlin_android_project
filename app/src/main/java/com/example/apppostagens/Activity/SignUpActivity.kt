@@ -43,16 +43,16 @@ class SignUpActivity : AppCompatActivity() {
         progressBar.setVisibility(View.GONE)
         buttonSingUp.setOnClickListener(object: View.OnClickListener {
             override fun onClick(v: View?) {
-                var name = nameInput.text.toString()
-                var username = usernameInput.text.toString()
-                var email = emailInput.text.toString()
-                var password = passwordInput.text.toString()
+                val name = nameInput.text.toString()
+                val username = usernameInput.text.toString()
+                val email = emailInput.text.toString()
+                val password = passwordInput.text.toString()
 
                 if (!name.isEmpty()){
                     if (!username.isEmpty()){
                         if (!email.isEmpty()){
                             if (!password.isEmpty()){
-                                var user = User(name, username, email, password)
+                                val user = User(name, username, email, password)
                                 signUp(user)
                             }
                             else{
@@ -81,8 +81,8 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun signUp(user : User){
         progressBar.setVisibility(View.VISIBLE)
-        var authenticator = FirebaseConfiguration.getFirebaseAuthReference()
-        authenticator.createUserWithEmailAndPassword(user.email, user.password)
+        val authenticator = FirebaseConfiguration.getFirebaseAuthReference()
+        authenticator.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
             .addOnCompleteListener(this@SignUpActivity) { task ->
                 if(task.isSuccessful){
                     startActivity(Intent(this@SignUpActivity, MainActivity::class.java))

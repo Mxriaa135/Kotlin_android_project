@@ -91,7 +91,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun signIn(user: User){
         progressBar.setVisibility(View.VISIBLE)
-        firebaseAuth.signInWithEmailAndPassword(user.email, user.password)
+        firebaseAuth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
             .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
                 if (task.isSuccessful) {
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
