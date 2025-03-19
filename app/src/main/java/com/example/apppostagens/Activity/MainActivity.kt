@@ -10,6 +10,7 @@ import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
 import com.example.apppostagens.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -18,11 +19,13 @@ import com.google.firebase.storage.StorageReference
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    private var reference: DatabaseReference = FirebaseDatabase.getInstance().getReference()
-    private var storageReference: StorageReference = FirebaseStorage.getInstance().getReference()
+    //private var reference: DatabaseReference = FirebaseDatabase.getInstance().getReference()
+    //private var storageReference: StorageReference = FirebaseStorage.getInstance().getReference()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        FirebaseApp.initializeApp(this)
 
         //createPost()
 
