@@ -1,20 +1,70 @@
 package com.example.apppostagens.Model
 
 class User() {
-    var name: String = ""
-    var userImage: String = ""
-    var email: String? = null
-    var telefone: String? = null
+    private var id : String = ""
+    private var name: String = ""
+    private var username: String = ""
+    private var userImage: String = ""
+    private var email: String = ""
+    private var password : String = ""
 
-    constructor(name: String, userImage: String) : this(){
+    constructor(email: String, password: String) : this(){
+        this.email = email
+        this.password = password
+    }
+
+    constructor(name: String, username: String, email: String, password : String) : this(){
         this.name = name
+        this.username = username
+        this.email = email
+        this.password = password
+    }
+
+    fun getId(): String {
+        return id
+    }
+
+    fun setId(id: String) {
+        this.id = id
+    }
+
+    fun getName(): String {
+        return name
+    }
+
+    fun setName(name: String) {
+        this.name = name
+    }
+
+    fun getUsername(): String {
+        return username
+    }
+
+    fun setUsername(username: String) {
+        this.username = username
+    }
+
+    fun getUserImage(): String {
+        return userImage
+    }
+
+    fun setUserImage(userImage: String) {
         this.userImage = userImage
     }
 
-    constructor(name: String, image: String, email: String?, telefone: String?) : this(){
-        this.name = name
-        this.userImage = image
+    fun getEmail(): String {
+        return email
+    }
+
+    fun setEmail(email: String) {
         this.email = email
-        this.telefone = telefone
+    }
+
+    fun getPassword(): String {
+        return password
+    }
+
+    fun setPassword(password: String) {
+        this.password = password
     }
 }
