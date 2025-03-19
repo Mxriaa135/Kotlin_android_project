@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
-    tools:context=".Activity.SingUpActivity">
+    tools:context=".Activity.SignUpActivity">
 
     <ImageView
         android:id="@+id/imageLogo"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/nameSingUpInput"
+        app:layout_constraintBottom_toTopOf="@+id/nameSignUpInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,9 +20,9 @@
         app:srcCompat="@drawable/logo" />
 
     <EditText
-        android:id="@+id/nameSingUpInput"
+        android:id="@+id/nameSignUpInput"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/background_input"
@@ -31,8 +31,8 @@
         android:inputType="text"
         android:padding="10dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/usernameSingUpInput"
+        android:textColorHint="@color/material_dynamic_neutral90"
+        app:layout_constraintBottom_toTopOf="@+id/usernameSignUpInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,9 +40,9 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
-        android:id="@+id/usernameSingUpInput"
+        android:id="@+id/usernameSignUpInput"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
@@ -52,55 +52,55 @@
         android:inputType="text"
         android:padding="10dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/material_dynamic_neutral90"
         app:layout_constraintBottom_toTopOf="@+id/emailSingUpInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameSingUpInput" />
+        app:layout_constraintTop_toBottomOf="@+id/nameSignUpInput" />
 
     <EditText
         android:id="@+id/emailSingUpInput"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/background_input"
         android:ems="10"
         android:hint="@string/hint_sing_up_email"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:padding="10dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/passwordSingUpInput"
+        android:textColorHint="@color/material_dynamic_neutral90"
+        app:layout_constraintBottom_toTopOf="@+id/passwordSignUpInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameSingUpInput" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameSignUpInput" />
 
     <EditText
-        android:id="@+id/passwordSingUpInput"
+        android:id="@+id/passwordSignUpInput"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/background_input"
         android:ems="10"
         android:hint="@string/hint_sing_up_password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:padding="10dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSingUp"
+        android:textColorHint="@color/material_dynamic_neutral90"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailSingUpInput" />
 
     <Button
-        android:id="@+id/buttonSingUp"
+        android:id="@+id/buttonSignUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -113,18 +113,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSingUpInput"
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpInput"
         app:strokeColor="@color/white" />
 
     <ProgressBar
-        android:id="@+id/progressBar2"
+        android:id="@+id/progressBarSignUp"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:visibility="invisible"
+        android:indeterminateTint="@color/white"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSingUp" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignUp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
