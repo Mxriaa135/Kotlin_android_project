@@ -1,7 +1,7 @@
 package com.example.apppostagens.Adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
@@ -42,27 +42,30 @@ class PostAdapter(private val list: List<Post>) : RecyclerView.Adapter<PostAdapt
         val userNameDescription: TextView = itemView.findViewById(R.id.userNameDescription)
         val imageComment: ImageView = itemView.findViewById(R.id.imageComment)
 
+        @SuppressLint("ClickableViewAccessibility")
         fun bind(post : Post){
-            userName.text = post.getUser().name
-            userNameDescription.text = post.getUser().name
+            userName.text = post.getUser().getName()
+            userNameDescription.text = post.getUser().getName()
             description.text = post.getDescription()
             date.text = post.getDate()
 
-            Glide.with(itemView.context)
-                .load(post.getImageUrl())
-                .placeholder(R.drawable.image)
-                .error(R.drawable.broken_image)
-                .into(imagePost)
+            val postImageReference = FirebaseStorage.getInstance().reference.child(post.getImageUrl())
+            println(postImageReference)
+            postImageReference.downloadUrl.addOnSuccessListener { uri ->
 
-            Glide.with(itemView.context)
-                .load(post.getUser().userImage)
-                .placeholder(R.drawable.profile)
-                .error(R.drawable.profile)
-                .into(userImage)
+                Glide.with(itemView.context)
+                    .load(uri.toString())
+                    .placeholder(R.drawable.image)
+                    .error(R.drawable.broken_image)
+                    .into(imagePost)
 
-            /*val storageReference = FirebaseStorage.getInstance().reference.child(post.getUser().userImage)
+            }.addOnFailureListener {
+                Log.e("FirebaseStorage", "Link ${it.message}")
+            }
 
-            storageReference.downloadUrl.addOnSuccessListener { uri ->
+            val userImageReference = FirebaseStorage.getInstance().reference.child(post.getUser().getUserImage())
+            println(userImageReference)
+            userImageReference.downloadUrl.addOnSuccessListener { uri ->
 
                 Glide.with(itemView.context)
                     .load(uri.toString())
@@ -72,7 +75,7 @@ class PostAdapter(private val list: List<Post>) : RecyclerView.Adapter<PostAdapt
 
             }.addOnFailureListener {
                 Log.e("FirebaseStorage", "Erro ao buscar imagem: ${it.message}")
-            }*/
+            }
 
             val gestureDetector = GestureDetector(imagePost.context, object : GestureDetector.SimpleOnGestureListener() {
                 override fun onDoubleTap(e: MotionEvent): Boolean {
