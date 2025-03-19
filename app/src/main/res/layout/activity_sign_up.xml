@@ -93,14 +93,14 @@
         android:padding="10dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSingUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailSingUpInput" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonSingUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -108,11 +108,13 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/background_button"
         android:text="@string/button_sing_up"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSingUpInput" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordSingUpInput"
+        app:strokeColor="@color/white" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -123,6 +125,6 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSingUp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
