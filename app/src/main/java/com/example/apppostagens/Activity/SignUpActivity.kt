@@ -5,29 +5,33 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+import com.example.apppostagens.Utils.FirebaseConfiguration
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
-class SingUpActivity : AppCompatActivity() {
 
-    private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
-    private var firebaseStorage : StorageReference = FirebaseStorage.getInstance().reference.child("User")
-    private lateinit var nameSingUpInput : EditText
-    private lateinit var usernameSingUpInput : EditText
-    private lateinit var emailSingUpInput : EditText
-    private lateinit var passwordSingUpInput : EditText
+class SignUpActivity : AppCompatActivity() {
+
+    private lateinit var nameInput : EditText
+    private lateinit var usernameInput : EditText
+    private lateinit var emailInput : EditText
+    private lateinit var passwordInput : EditText
     private lateinit var buttonSingUp : Button
+    private lateinit var progressBar : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_sing_up)
+        setContentView(R.layout.activity_sign_up)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -36,33 +40,88 @@ class SingUpActivity : AppCompatActivity() {
 
         initializeComponents()
 
+        progressBar.setVisibility(View.GONE)
         buttonSingUp.setOnClickListener(object: View.OnClickListener {
             override fun onClick(v: View?) {
-                var name = nameSingUpInput.text.toString()
-                var username = usernameSingUpInput.text.toString()
-                var email = emailSingUpInput.text.toString()
-                var password = passwordSingUpInput.text.toString()
+                var name = nameInput.text.toString()
+                var username = usernameInput.text.toString()
+                var email = emailInput.text.toString()
+                var password = passwordInput.text.toString()
 
-                firebaseAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this@SingUpActivity) { task ->
-                        if(task.isSuccessful){
-                            val intent = Intent(this@SingUpActivity, MainActivity::class.java)
-                            startActivity(intent)
+                if (!name.isEmpty()){
+                    if (!username.isEmpty()){
+                        if (!email.isEmpty()){
+                            if (!password.isEmpty()){
+                                var user = User(name, username, email, password)
+                                signUp(user)
+                            }
+                            else{
+                                Toast.makeText(this@SignUpActivity,
+                                    "Digite a senha", Toast.LENGTH_SHORT).show()
+                            }
                         }
                         else{
-
+                            Toast.makeText(this@SignUpActivity,
+                                "Digite o email", Toast.LENGTH_SHORT).show()
                         }
                     }
+                    else{
+                        Toast.makeText(this@SignUpActivity,
+                            "Digite o username", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else{
+                    Toast.makeText(this@SignUpActivity,
+                        "Digite seu Nome", Toast.LENGTH_SHORT).show()
+                }
             }
         })
 
     }
 
+    private fun signUp(user : User){
+        progressBar.setVisibility(View.VISIBLE)
+        var authenticator = FirebaseConfiguration.getFirebaseAuthReference()
+        authenticator.createUserWithEmailAndPassword(user.email, user.password)
+            .addOnCompleteListener(this@SignUpActivity) { task ->
+                if(task.isSuccessful){
+                    startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+                    finish()
+                }
+                else{
+                    progressBar.setVisibility(View.GONE)
+
+                    var errorException = ""
+                    try {
+                        throw task.exception!!
+                    } catch (e: FirebaseAuthWeakPasswordException) {
+                        errorException = "Digite uma senha mais forte!"
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        errorException = "Por favor, digite um e-mail válido"
+                    } catch (e: FirebaseAuthUserCollisionException) {
+                        errorException = "Este conta já foi cadastrada"
+                    } catch (e: Exception) {
+                        errorException = "ao cadastrar usuário: " + e.message
+                        e.printStackTrace()
+                    }
+
+                    Toast.makeText(
+                        this@SignUpActivity,
+                        "Erro: $errorException",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+    }
+
     private fun initializeComponents(){
-        nameSingUpInput = findViewById(R.id.nameSingUpInput)
-        usernameSingUpInput = findViewById(R.id.usernameSingUpInput)
-        emailSingUpInput = findViewById(R.id.emailSingUpInput)
-        passwordSingUpInput = findViewById(R.id.passwordSingUpInput)
-        buttonSingUp = findViewById(R.id.buttonSingUp)
+        nameInput = findViewById(R.id.nameSignUpInput)
+        usernameInput = findViewById(R.id.usernameSignUpInput)
+        emailInput = findViewById(R.id.emailSingUpInput)
+        passwordInput = findViewById(R.id.passwordSignUpInput)
+        buttonSingUp = findViewById(R.id.buttonSignUp)
+        progressBar = findViewById(R.id.progressBarSignUp)
+
+        nameInput.requestFocus()
     }
 }
