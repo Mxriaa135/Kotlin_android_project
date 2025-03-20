@@ -14,10 +14,12 @@
         tools:targetApi="31">
         <activity
             android:name=".Activity.SignUpActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppThemeLogin"/>
         <activity
             android:name=".Activity.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppThemeLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
