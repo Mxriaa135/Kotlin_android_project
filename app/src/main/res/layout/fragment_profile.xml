@@ -6,24 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.ProfileFragment">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar_profile"
+        app:layout_constraintBottom_toTopOf="@+id/cardView" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="72dp"
-        android:layout_height="68dp"
+        android:layout_height="72dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
         android:layout_marginBottom="8dp"
-        app:cardCornerRadius="32dp"
+        app:cardCornerRadius="50dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/userImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#000000"
-            android:scaleType="centerCrop" />
+            android:background="@drawable/background_image_profile"
+            android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -96,7 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <TextView
         android:id="@+id/textUserName"

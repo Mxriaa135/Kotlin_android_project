@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        app:tint="?attr/android:colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/fragmentContainerComment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

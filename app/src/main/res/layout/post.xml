@@ -11,6 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="280dp"
         android:layout_marginTop="16dp"
+        android:maxHeight="280dp"
+        android:minHeight="280dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,10 +25,10 @@
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:color="?attr/android:tint"
         app:layout_constraintStart_toStartOf="@+id/imagePost"
         app:layout_constraintTop_toBottomOf="@+id/imagePost"
-        app:srcCompat="@drawable/like" />
+        app:srcCompat="@drawable/like"
+        app:tint="?attr/android:colorAccent" />
 
     <ImageView
         android:id="@+id/imageComment"
@@ -36,7 +38,8 @@
         android:layout_marginTop="9dp"
         app:layout_constraintStart_toEndOf="@+id/imageLike"
         app:layout_constraintTop_toBottomOf="@+id/imagePost"
-        app:srcCompat="@drawable/comment" />
+        app:srcCompat="@drawable/comment"
+        app:tint="?attr/android:colorAccent" />
 
     <ImageView
         android:id="@+id/imageSend"
@@ -46,7 +49,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/imageComment"
         app:layout_constraintTop_toBottomOf="@+id/imagePost"
-        app:srcCompat="@drawable/send" />
+        app:srcCompat="@drawable/send"
+        app:tint="?attr/android:colorAccent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -63,7 +67,7 @@
             android:id="@+id/userImage"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -74,7 +78,8 @@
         android:text="Usuario"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintStart_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toTopOf="@+id/cardView" />
+        app:layout_constraintTop_toTopOf="@+id/cardView"
+        app:tint="?attr/android:colorAccent" />
 
     <ImageView
         android:id="@+id/imageSave"
@@ -84,7 +89,8 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="@+id/imagePost"
         app:layout_constraintTop_toBottomOf="@+id/imagePost"
-        app:srcCompat="@drawable/save" />
+        app:srcCompat="@drawable/save"
+        app:tint="?attr/android:colorAccent" />
 
     <TextView
         android:id="@+id/description"
