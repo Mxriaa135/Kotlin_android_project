@@ -1,5 +1,9 @@
 package com.example.apppostagens.Model
 
+import com.example.apppostagens.Utils.FirebaseConfiguration
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.Exclude
+
 class User() {
     private var id : String = ""
     private var name: String = ""
@@ -7,6 +11,12 @@ class User() {
     private var userImage: String = ""
     private var email: String = ""
     private var password : String = ""
+
+    fun save(){
+        val firebasref : DatabaseReference = FirebaseConfiguration.getFirebaseReference()
+        val userRef : DatabaseReference = firebasref.child("User").child(getId())
+        userRef.setValue(this)
+    }
 
     constructor(email: String, password: String) : this(){
         this.email = email
@@ -59,7 +69,7 @@ class User() {
     fun setEmail(email: String) {
         this.email = email
     }
-
+    @Exclude
     fun getPassword(): String {
         return password
     }
