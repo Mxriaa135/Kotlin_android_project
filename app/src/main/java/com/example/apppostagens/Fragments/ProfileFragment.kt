@@ -9,19 +9,28 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import com.bumptech.glide.manager.Lifecycle
 import com.example.apppostagens.Activity.LoginActivity
+import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
 import com.example.apppostagens.Utils.FirebaseConfiguration
+import com.example.apppostagens.Utils.UserFirebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 
 class ProfileFragment : Fragment() {
 
     private lateinit var authenticator : FirebaseAuth
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var username : TextView
+    private lateinit var name : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +43,8 @@ class ProfileFragment : Fragment() {
     ): View {
 
         val view : View = inflater.inflate(R.layout.fragment_profile, container, false)
+        initializeComponents(view)
+        loadData()
 
         //toolbar
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_profile)
@@ -69,6 +80,36 @@ class ProfileFragment : Fragment() {
         } catch (e :Exception){
             e.printStackTrace()
         }
+    }
+
+    private fun loadData(){
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot : DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val user =  dataSnapshot.getValue(User::class.java)
+                    user?.let {
+                        username.text = it.getUsername()
+                        name.text = it.getName()
+
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                error.toException().printStackTrace()
+            }
+        })
+    }
+
+    fun initializeComponents(view: View){
+        val currentUser = UserFirebase.getCurrentUser()
+        if (currentUser != null) {
+            val userRef = currentUser.uid
+            databaseReference = FirebaseConfiguration.getFirebaseReference().child("User").child(userRef)
+        } else {
+            return
+        }
+        username = view.findViewById(R.id.usernameProfile)
+        name = view.findViewById(R.id.textNameProfile)
     }
 
 }
