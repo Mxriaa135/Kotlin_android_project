@@ -85,8 +85,18 @@ class SignUpActivity : AppCompatActivity() {
         authenticator.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
             .addOnCompleteListener(this@SignUpActivity) { task ->
                 if(task.isSuccessful){
-                    startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
-                    finish()
+                    try{
+                        progressBar.setVisibility(View.GONE)
+
+                        val uidUser = task.result?.user?.uid.toString()
+                        user.setId(uidUser)
+                        user.save()
+
+                        startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+                        finish()
+                    }catch(e: Exception){
+                        e.printStackTrace()
+                    }
                 }
                 else{
                     progressBar.setVisibility(View.GONE)
