@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        //checkUserAuthentication()
+        checkUserAuthentication()
         initializeComponents()
 
         progressBar.setVisibility(View.GONE)
