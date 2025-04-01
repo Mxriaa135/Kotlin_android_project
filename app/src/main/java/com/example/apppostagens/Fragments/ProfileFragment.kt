@@ -9,11 +9,14 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import com.example.apppostagens.Activity.EditProfileActivity
 import com.example.apppostagens.Activity.LoginActivity
 import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
@@ -31,6 +34,7 @@ class ProfileFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var username : TextView
     private lateinit var name : TextView
+    private lateinit var editButton : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +73,13 @@ class ProfileFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner)
+
+        editButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val intent = Intent(context, EditProfileActivity::class.java)
+                startActivity(intent)
+            }
+        })
 
         return view
     }
@@ -110,6 +121,7 @@ class ProfileFragment : Fragment() {
         }
         username = view.findViewById(R.id.usernameProfile)
         name = view.findViewById(R.id.textNameProfile)
+        editButton = view.findViewById(R.id.editButtonProfile)
     }
 
 }
