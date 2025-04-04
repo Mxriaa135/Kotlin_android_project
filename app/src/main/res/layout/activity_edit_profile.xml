@@ -12,12 +12,10 @@
         android:id="@+id/cardView"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:layout_marginBottom="24dp"
         android:backgroundTint="#50FFFFFF"
         app:cardCornerRadius="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextUsername"
+        app:layout_constraintBottom_toTopOf="@+id/textEditPhoto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed">
@@ -29,8 +27,7 @@
             android:background="@drawable/background_image_profile"
             android:backgroundTint="@color/white"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile"
-            app:tint="@color/white"/>
+            android:src="@drawable/profile" />
     </androidx.cardview.widget.CardView>
 
     <EditText
@@ -49,9 +46,8 @@
         android:textColorHint="@color/material_dynamic_neutral90"
         app:layout_constraintBottom_toTopOf="@+id/editTextName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintTop_toBottomOf="@+id/textEditPhoto" />
 
     <EditText
         android:id="@+id/editTextName"
@@ -66,7 +62,7 @@
         android:padding="10dp"
         android:textColor="@color/white"
         android:textColorHint="@color/material_dynamic_neutral90"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSaveEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,13 +71,14 @@
     <Button
         android:id="@+id/buttonSaveEdit"
         android:layout_width="180dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/background_button"
         android:text="Salvar"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +91,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="@android:color/transparent"
-        android:tint="@color/white"
+        app:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow_back" />
@@ -109,5 +106,20 @@
         app:layout_constraintBottom_toBottomOf="@+id/buttonBackEdit"
         app:layout_constraintStart_toEndOf="@+id/buttonBackEdit"
         app:layout_constraintTop_toTopOf="@+id/buttonBackEdit" />
+
+    <TextView
+        android:id="@+id/textEditPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="Alterar foto"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUsername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
