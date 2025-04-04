@@ -9,11 +9,13 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
 import com.example.apppostagens.Utils.FirebaseConfiguration
+import com.example.apppostagens.Utils.UserFirebase
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
@@ -37,6 +39,7 @@ class SignUpActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.Transparent)
 
         initializeComponents()
 
@@ -91,6 +94,8 @@ class SignUpActivity : AppCompatActivity() {
                         val uidUser = task.result?.user?.uid.toString()
                         user.setId(uidUser)
                         user.save()
+
+                        UserFirebase.updateNameUser(user.getUsername())
 
                         startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
                         finish()
