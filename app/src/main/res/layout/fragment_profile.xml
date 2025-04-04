@@ -25,9 +25,9 @@
             android:id="@+id/userImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/profile"
             android:background="@drawable/background_image_profile"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -124,5 +124,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/editButtonProfile"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:strokeColor="?attr/android:colorAccent"
+        android:text="Editar Perfil"
+        android:textColor="?attr/android:textColor"
+        app:layout_constraintEnd_toEndOf="@+id/textFollowing"
+        app:layout_constraintStart_toStartOf="@+id/textPosts"
+        app:layout_constraintTop_toBottomOf="@+id/textFollowers" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
