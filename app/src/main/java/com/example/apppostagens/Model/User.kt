@@ -18,6 +18,22 @@ class User() {
         userRef.setValue(this)
     }
 
+    fun update(){
+        val firebasref : DatabaseReference = FirebaseConfiguration.getFirebaseReference()
+        val userRef : DatabaseReference = firebasref.child("User").child(getId())
+        userRef.updateChildren(toMap().filterValues { it != null })
+    }
+
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "email" to getEmail(),
+            "name" to getName(),
+            "id" to getId(),
+            "username" to getUsername(),
+            "userImage" to getUserImage()
+        )
+    }
+
     constructor(email: String, password: String) : this(){
         this.email = email
         this.password = password
