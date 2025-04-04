@@ -160,8 +160,10 @@ class EditProfileActivity : AppCompatActivity() {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot : DataSnapshot) {
                 for (snapshot in dataSnapshot.children) {
+                    if (isFinishing || isDestroyed) return
                     val user =  dataSnapshot.getValue(User::class.java)
                     user?.let {
+                        dataCurrentUser = it
                         editTextUsername.setText(it.getUsername())
                         editTextName.setText(it.getName())
 
