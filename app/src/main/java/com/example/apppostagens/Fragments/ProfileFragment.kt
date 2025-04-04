@@ -9,13 +9,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import com.bumptech.glide.Glide
 import com.example.apppostagens.Activity.EditProfileActivity
 import com.example.apppostagens.Activity.LoginActivity
 import com.example.apppostagens.Model.User
@@ -35,6 +35,7 @@ class ProfileFragment : Fragment() {
     private lateinit var username : TextView
     private lateinit var name : TextView
     private lateinit var editButton : TextView
+    private lateinit var imageUser : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,12 +75,10 @@ class ProfileFragment : Fragment() {
             }
         }, viewLifecycleOwner)
 
-        editButton.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent = Intent(context, EditProfileActivity::class.java)
-                startActivity(intent)
-            }
-        })
+        editButton.setOnClickListener {
+            val intent = Intent(context, EditProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         return view
     }
@@ -102,6 +101,13 @@ class ProfileFragment : Fragment() {
                         username.text = it.getUsername()
                         name.text = it.getName()
 
+                        Glide.with(this@ProfileFragment)
+                            .load(it.getUserImage())
+                            .placeholder(R.drawable.profile)
+                            .error(R.drawable.profile)
+                            .into(imageUser)
+
+
                     }
                 }
             }
@@ -111,7 +117,7 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    fun initializeComponents(view: View){
+    private fun initializeComponents(view: View){
         val currentUser = UserFirebase.getCurrentUser()
         if (currentUser != null) {
             val userRef = currentUser.uid
@@ -121,6 +127,7 @@ class ProfileFragment : Fragment() {
         }
         username = view.findViewById(R.id.usernameProfile)
         name = view.findViewById(R.id.textNameProfile)
+        imageUser = view.findViewById(R.id.userImage)
         editButton = view.findViewById(R.id.editButtonProfile)
     }
 
