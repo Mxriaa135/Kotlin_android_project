@@ -9,11 +9,22 @@
         android:id="@+id/feedFragment"
         android:name="com.example.apppostagens.Fragments.FeedFragment"
         android:label="fragment_feed"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.example.apppostagens.Fragments.AddFragment"
+        android:label="fragment_add"
+        tools:layout="@layout/fragment_add" >
+    </fragment>
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.apppostagens.Fragments.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+
+    </fragment>
 
 </navigation>
