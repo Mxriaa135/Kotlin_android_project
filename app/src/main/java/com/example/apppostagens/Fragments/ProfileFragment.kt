@@ -32,6 +32,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var authenticator : FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
+    private lateinit var valueEventListener: ValueEventListener
     private lateinit var username : TextView
     private lateinit var name : TextView
     private lateinit var editButton : TextView
@@ -82,6 +83,14 @@ class ProfileFragment : Fragment() {
 
         return view
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (::valueEventListener.isInitialized) {
+            databaseReference.removeEventListener(valueEventListener)
+        }
+    }
+
     private fun signOut(){
         authenticator = FirebaseConfiguration.getFirebaseAuthReference()
 
@@ -98,16 +107,19 @@ class ProfileFragment : Fragment() {
                 for (snapshot in dataSnapshot.children) {
                     val user =  dataSnapshot.getValue(User::class.java)
                     user?.let {
+                        if (!isAdded || view == null) return
+
                         username.text = it.getUsername()
                         name.text = it.getName()
 
-                        Glide.with(this@ProfileFragment)
-                            .load(it.getUserImage())
-                            .placeholder(R.drawable.profile)
-                            .error(R.drawable.profile)
-                            .into(imageUser)
+                        it.let{
+                            Glide.with(requireContext())
+                                .load(it.getUserImage())
+                                .placeholder(R.drawable.profile)
+                                .error(R.drawable.profile)
+                                .into(imageUser)
 
-
+                        }
                     }
                 }
             }
