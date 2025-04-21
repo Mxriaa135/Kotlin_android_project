@@ -69,7 +69,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         val getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val uri = result.data?.data
+                result.data?.data?.let { uri ->
                     try {
                         progressBar.visibility = View.VISIBLE
                         imageUser.visibility = View.INVISIBLE
@@ -87,12 +87,28 @@ class EditProfileActivity : AppCompatActivity() {
                             val matrix = android.graphics.Matrix()
 
                             when (orientation) {
-                                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
-                                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
-                                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+                                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(
+                                    90f
+                                )
+
+                                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(
+                                    180f
+                                )
+
+                                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(
+                                    270f
+                                )
                             }
 
-                            val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+                            val rotatedBitmap = Bitmap.createBitmap(
+                                bitmap,
+                                0,
+                                0,
+                                bitmap.width,
+                                bitmap.height,
+                                matrix,
+                                true
+                            )
                             imageUser.setImageBitmap(rotatedBitmap)
 
                             val baos = ByteArrayOutputStream()
@@ -105,19 +121,28 @@ class EditProfileActivity : AppCompatActivity() {
 
                             val uploadTask: UploadTask = imageRef.putBytes(dataImage)
                             uploadTask.addOnFailureListener {
-                                Toast.makeText(this, "Erro ao fazer upload da imagem", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    "Erro ao fazer upload da imagem",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }.addOnSuccessListener { _ ->
                                 imageRef.downloadUrl.addOnSuccessListener { uri ->
                                     this.uri = uri
                                     progressBar.visibility = View.GONE
                                     imageUser.visibility = View.VISIBLE
-                                    Toast.makeText(this, "Sucesso ao fazer upload da imagem", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        this,
+                                        "Sucesso ao fazer upload da imagem",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         }
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
+                }
             }
         }
 
@@ -160,19 +185,20 @@ class EditProfileActivity : AppCompatActivity() {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot : DataSnapshot) {
                 for (snapshot in dataSnapshot.children) {
-                    if (isFinishing || isDestroyed) return
                     val user =  dataSnapshot.getValue(User::class.java)
                     user?.let {
                         dataCurrentUser = it
                         editTextUsername.setText(it.getUsername())
                         editTextName.setText(it.getName())
 
-                        if(it.getUserImage() != ""){
-                            Glide.with(this@EditProfileActivity)
-                                .load(it.getUserImage())
-                                .placeholder(R.drawable.profile)
-                                .error(R.drawable.profile)
-                                .into(imageUser)
+                        if (it.getUserImage().isNotEmpty()) {
+                            if (!isFinishing && !isDestroyed) {
+                                Glide.with(this@EditProfileActivity)
+                                    .load(it.getUserImage())
+                                    .placeholder(R.drawable.profile)
+                                    .error(R.drawable.profile)
+                                    .into(imageUser)
+                            }
                         }
                         }
                 }
