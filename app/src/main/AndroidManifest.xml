@@ -13,9 +13,12 @@
         android:theme="@style/Theme.AppPostagens"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.AddActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.EditProfileActivity"
             android:exported="false"
-            android:theme="@style/AppThemeGradient"/>
+            android:theme="@style/AppThemeGradient" />
         <activity
             android:name=".Activity.SignUpActivity"
             android:exported="false"
