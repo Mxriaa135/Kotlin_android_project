@@ -1,28 +1,46 @@
 package com.example.apppostagens.Model
 
+import com.example.apppostagens.Utils.FirebaseConfiguration
+import com.google.firebase.database.DatabaseReference
+
 class Post () {
-    private var id: Int = 0
+    private var id: String = ""
     private var description: String = ""
     private var imageUrl: String = ""
     private var date: String = ""
     private var saved: Boolean = false
     private var liked: Boolean = false
-    private var user: User = User()
+    private var userId: String = ""
     private var comments: List<Comment> = ArrayList<Comment>()
 
-    constructor(id: Int, description: String, imageUrl: String, date: String, user: User) : this(){
+    fun add() {
+        val firebasref : DatabaseReference = FirebaseConfiguration.getFirebaseReference()
+        val postRef : DatabaseReference = firebasref.child("Post")
+        val idPostagem: String = postRef.push().getKey()!!
+        setId(idPostagem)
+    }
+
+    fun save() : Boolean{
+        val firebaseRef: DatabaseReference = FirebaseConfiguration.getFirebaseReference()
+        val postagensRef = firebaseRef.child("Post")
+            .child(getId())
+        postagensRef.setValue(this)
+        return true
+    }
+
+    constructor(id: String, description: String, imageUrl: String, date: String, userId: String) : this(){
         this.id = id
         this.description = description
         this.imageUrl = imageUrl
         this.date = date
-        this.user = user
+        this.userId = userId
     }
 
-    fun getId(): Int{
+    fun getId(): String{
         return id
     }
 
-    fun setId(id:Int){
+    fun setId(id:String){
         this.id = id
     }
 
@@ -66,12 +84,12 @@ class Post () {
         this.date = date
     }
 
-    fun getUser(): User {
-        return user
+    fun getUserId(): String {
+        return userId
     }
 
-    fun setUser(user: User) {
-        this.user = user
+    fun setUserId(user: String) {
+        this.userId = user
     }
 
     fun getComments(): List<Comment> {
