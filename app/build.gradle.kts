@@ -75,4 +75,7 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-storage:8.0.2")
     // Add the dependency for the Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    //Add CardView dependency
+    implementation ("androidx.cardview:cardview:1.0.0")
 }
