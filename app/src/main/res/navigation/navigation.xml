@@ -24,7 +24,20 @@
         android:name="com.example.apppostagens.Fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
+    </fragment>
 
+    <fragment
+        android:id="@+id/SearchFragment"
+        android:name="com.example.apppostagens.Fragments.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/FriendProfileFragment"
+        android:name="com.example.apppostagens.Fragments.FriendProfileFragment"
+        android:label="fragment_profile_friend"
+        tools:layout="@layout/fragment_profile_friend" >
     </fragment>
 
 </navigation>
