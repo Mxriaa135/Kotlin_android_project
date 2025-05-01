@@ -4,6 +4,10 @@
         android:icon="@drawable/home"
         android:title="@string/bottom_navigation_home" />
 
+    <item android:id="@+id/SearchFragment"
+        android:icon="@drawable/search"
+        android:title="Search"/>
+
     <item android:id="@+id/addFragment"
         android:icon="@drawable/add"
         android:title="@string/bottom_navigation_add"/>
