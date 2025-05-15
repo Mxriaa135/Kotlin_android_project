@@ -25,15 +25,6 @@ class Comment() {
         return true
     }
 
-    fun toMap(): Map<String, Any?>{
-        return mapOf(
-            "id" to getId(),
-            "idPost" to getIdPost(),
-            "idUser" to getIdUser(),
-            "text" to getText()
-        )
-    }
-
     constructor(post: String, user: String, text: String) : this(){
         this.idPost = post
         this.idUser = user
