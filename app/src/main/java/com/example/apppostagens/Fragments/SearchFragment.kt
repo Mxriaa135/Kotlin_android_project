@@ -27,6 +27,7 @@ class SearchFragment : Fragment(){
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+
     private var listUsers: MutableList<User> = mutableListOf()
     private lateinit var databaseRef : DatabaseReference
     private lateinit var adapter: SearchAdapter
@@ -43,7 +44,7 @@ class SearchFragment : Fragment(){
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextChange(newText: String?): Boolean {
-                searchUsers(newText)
+                searchUsers(newText?.lowercase())
                 return true
             }
 
