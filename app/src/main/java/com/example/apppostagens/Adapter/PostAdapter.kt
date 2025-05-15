@@ -13,10 +13,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.apppostagens.Activity.CommentActivity
+import com.example.apppostagens.Model.Like
 import com.example.apppostagens.Model.Post
+import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
-import com.google.firebase.storage.FirebaseStorage
-
+import com.example.apppostagens.Utils.FirebaseConfiguration
+import com.example.apppostagens.Utils.UserFirebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class PostAdapter(private val list: List<Post>) : RecyclerView.Adapter<PostAdapter.MyViewHolder>() {
 
@@ -44,60 +49,99 @@ class PostAdapter(private val list: List<Post>) : RecyclerView.Adapter<PostAdapt
 
         @SuppressLint("ClickableViewAccessibility")
         fun bind(post : Post){
-            userName.text = post.getUser().getName()
-            userNameDescription.text = post.getUser().getName()
-            description.text = post.getDescription()
-            date.text = post.getDate()
 
-            val postImageReference = FirebaseStorage.getInstance().reference.child(post.getImageUrl())
-            println(postImageReference)
-            postImageReference.downloadUrl.addOnSuccessListener { uri ->
+            val databaseReferenceUser = FirebaseConfiguration.getFirebaseReference()
+                .child("User")
+                .child(post.getUserId())
+            databaseReferenceUser.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (snapshot in dataSnapshot.children) {
+                        dataSnapshot.getValue(User::class.java)?.let {
+                            userName.text = it.getUsername()
+                            userNameDescription.text = it.getUsername()
 
-                Glide.with(itemView.context)
-                    .load(uri.toString())
-                    .placeholder(R.drawable.image)
-                    .error(R.drawable.broken_image)
-                    .into(imagePost)
+                            Glide.with(itemView.context)
+                                .load(it.getUserImage())
+                                .placeholder(R.drawable.profile)
+                                .error(R.drawable.profile)
+                                .into(userImage)
+                        }
+                    }
 
-            }.addOnFailureListener {
-                Log.e("FirebaseStorage", "Link ${it.message}")
-            }
-
-            val userImageReference = FirebaseStorage.getInstance().reference.child(post.getUser().getUserImage())
-            println(userImageReference)
-            userImageReference.downloadUrl.addOnSuccessListener { uri ->
-
-                Glide.with(itemView.context)
-                    .load(uri.toString())
-                    .placeholder(R.drawable.profile)
-                    .error(R.drawable.profile)
-                    .into(userImage)
-
-            }.addOnFailureListener {
-                Log.e("FirebaseStorage", "Erro ao buscar imagem: ${it.message}")
-            }
-
-            val gestureDetector = GestureDetector(imagePost.context, object : GestureDetector.SimpleOnGestureListener() {
-                override fun onDoubleTap(e: MotionEvent): Boolean {
-                    post.setLiked(true)
-                    imagelike.setImageResource(R.drawable.liked)
-                    return true
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    error.toException().printStackTrace()
                 }
             })
-            imagePost.setOnTouchListener { _, event ->
-                gestureDetector.onTouchEvent(event)
-                true
-            }
+
+            val databaseReferencePost =  FirebaseConfiguration.getFirebaseReference()
+                .child("Post")
+                .child(post.getUserId())
+                .child(post.getId())
+            databaseReferencePost.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (snapshot in dataSnapshot.children) {
+                        dataSnapshot.getValue(Post::class.java)?.let {
+                            Glide.with(itemView.context)
+                                .load(it.getImageUrl())
+                                .placeholder(R.drawable.image)
+                                .error(R.drawable.broken_image)
+                                .into(imagePost)
+                        }
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    error.toException().printStackTrace()
+                }
+            })
+
+            description.text = post.getDescription()
+            date.text = post.getDate()
 
             imageSave.setOnClickListener {
                 post.setSaved(!post.getSaved())
                 imageSave.setImageResource(if (post.getSaved()) R.drawable.saved else R.drawable.save)
             }
 
-            imagelike.setOnClickListener {
-                post.setLiked(!post.getLiked())
-                imagelike.setImageResource(if (post.getLiked()) R.drawable.liked else R.drawable.like)
-            }
+            val likeRef = FirebaseConfiguration.getFirebaseReference().child("Likes").child(post.getId())
+            likeRef.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(ds: DataSnapshot) {
+                    val idCurrentUser = UserFirebase.getCurrentUser()!!.uid
+                    val like = Like().apply {
+                        setIdPost(post.getId())
+                        setIdUser(idCurrentUser)
+                    }
+                    val gestureDetector = GestureDetector(imagePost.context, object : GestureDetector.SimpleOnGestureListener() {
+                        override fun onDoubleTap(e: MotionEvent): Boolean {
+                            like.save()
+                            imagelike.setImageResource(R.drawable.liked)
+                            return true
+                        }
+                    })
+                    if(ds.hasChild(idCurrentUser)) {
+                        Log.d("log", "${ds}")
+                        imagelike.setImageResource(R.drawable.liked)
+                        imagelike.setOnClickListener {
+                            like.remove()
+                        }
+                    }
+                    else{
+                        Log.d("log", "${ds}")
+                        imagelike.setImageResource(R.drawable.like)
+                        imagelike.setOnClickListener {
+                            like.save()
+                        }
+                        imagePost.setOnTouchListener { _, event ->
+                            gestureDetector.onTouchEvent(event)
+                            true
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
 
             imageComment.setOnClickListener {
                 val context = itemView.context
