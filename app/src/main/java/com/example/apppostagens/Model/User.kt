@@ -11,6 +11,9 @@ class User() {
     private var userImage: String = ""
     private var email: String = ""
     private var password : String = ""
+    private var posts : Int = 0
+    private var followers : Int = 0
+    private var following : Int = 0
 
     fun save(){
         val firebasref : DatabaseReference = FirebaseConfiguration.getFirebaseReference()
@@ -30,7 +33,10 @@ class User() {
             "name" to getName(),
             "id" to getId(),
             "username" to getUsername(),
-            "userImage" to getUserImage()
+            "userImage" to getUserImage(),
+            "posts" to getPosts(),
+            "followers" to getFollowers(),
+            "following" to getFollowing()
         )
     }
 
@@ -67,7 +73,7 @@ class User() {
     }
 
     fun setUsername(username: String) {
-        this.username = username
+        this.username = username.lowercase()
     }
 
     fun getUserImage(): String {
@@ -85,6 +91,31 @@ class User() {
     fun setEmail(email: String) {
         this.email = email
     }
+
+    fun getPosts():Int{
+        return posts
+    }
+
+    fun setPosts(posts : Int){
+        this.posts = posts
+    }
+
+    fun getFollowers():Int{
+        return followers
+    }
+
+    fun setFollowers(followers : Int){
+        this.followers = followers
+    }
+
+    fun getFollowing():Int{
+        return following
+    }
+
+    fun setFollowing(following : Int){
+        this.following = following
+    }
+
     @Exclude
     fun getPassword(): String {
         return password
