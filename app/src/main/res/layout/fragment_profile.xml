@@ -55,7 +55,7 @@
         app:layout_constraintStart_toEndOf="@+id/cardView" />
 
     <TextView
-        android:id="@+id/textNumFollowers"
+        android:id="@+id/textNumFollowing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -66,7 +66,7 @@
         app:layout_constraintStart_toStartOf="@+id/textFollowing" />
 
     <TextView
-        android:id="@+id/textNumFollowing"
+        android:id="@+id/textNumFollowers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -119,15 +119,17 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <GridView
+        android:id="@+id/gridView"
         android:layout_width="409dp"
         android:layout_height="500dp"
+        android:numColumns="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/editButtonProfile"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:strokeColor="?attr/android:colorAccent"
