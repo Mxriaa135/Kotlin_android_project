@@ -11,6 +11,7 @@ import com.example.apppostagens.Adapter.PostAdapter
 import com.example.apppostagens.Model.Post
 import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
+import com.example.apppostagens.Utils.FirebaseConfiguration
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -22,7 +23,7 @@ class FeedFragment : Fragment() {
 
     private lateinit var list: RecyclerView
     private var listPosts: MutableList<Post> = mutableListOf()
-    private var reference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Post")
+    private var reference: DatabaseReference = FirebaseConfiguration.getFirebaseReference().child("Feed")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
