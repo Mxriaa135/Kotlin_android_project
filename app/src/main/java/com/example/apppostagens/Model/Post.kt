@@ -9,9 +9,7 @@ class Post () {
     private var imageUrl: String = ""
     private var date: String = ""
     private var saved: Boolean = false
-    private var liked: Boolean = false
     private var userId: String = ""
-    private var comments: List<Comment> = ArrayList<Comment>()
 
     fun add() {
         val firebasref : DatabaseReference = FirebaseConfiguration.getFirebaseReference()
@@ -25,7 +23,7 @@ class Post () {
         val postagensRef = firebaseRef.child("Post")
             .child(getUserId())
             .child(getId())
-        postagensRef.setValue(this)
+            .setValue(this)
         val feedRef = firebaseRef.child("Feed")
             .child(getId())
             .setValue(this)
@@ -72,14 +70,6 @@ class Post () {
         this.imageUrl = image
     }
 
-    fun getLiked(): Boolean{
-        return liked
-    }
-
-    fun setLiked(liked: Boolean){
-        this.liked = liked
-    }
-
     fun getDate (): String{
         return date
     }
@@ -94,13 +84,5 @@ class Post () {
 
     fun setUserId(user: String) {
         this.userId = user
-    }
-
-    fun getComments(): List<Comment> {
-        return comments
-    }
-
-    fun setComments(comments: List<Comment>) {
-        this.comments = comments
     }
 }
