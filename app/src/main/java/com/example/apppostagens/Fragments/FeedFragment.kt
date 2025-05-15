@@ -9,13 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apppostagens.Adapter.PostAdapter
 import com.example.apppostagens.Model.Post
-import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
 import com.example.apppostagens.Utils.FirebaseConfiguration
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
@@ -47,6 +45,7 @@ class FeedFragment : Fragment() {
 
         return view
     }
+    
     private fun loadData(adapter: PostAdapter){
         reference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(dataSnapshot : DataSnapshot) {
