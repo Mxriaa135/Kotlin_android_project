@@ -23,8 +23,12 @@ class Post () {
     fun save() : Boolean{
         val firebaseRef: DatabaseReference = FirebaseConfiguration.getFirebaseReference()
         val postagensRef = firebaseRef.child("Post")
+            .child(getUserId())
             .child(getId())
         postagensRef.setValue(this)
+        val feedRef = firebaseRef.child("Feed")
+            .child(getId())
+            .setValue(this)
         return true
     }
 

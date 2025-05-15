@@ -4,17 +4,24 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.example.apppostagens.Model.Post
+import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
 import com.example.apppostagens.Utils.FirebaseConfiguration
 import com.example.apppostagens.Utils.UserFirebase
 import com.example.apppostagens.databinding.ActivityAddBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import java.io.ByteArrayOutputStream
@@ -28,6 +35,7 @@ class AddActivity : AppCompatActivity() {
     private lateinit var dataImage: ByteArray
     private lateinit var post : Post
     private lateinit var idUser: String
+    private lateinit var userRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,14 +103,8 @@ class AddActivity : AppCompatActivity() {
             val uri = Uri.parse(it)
             val rotatedBitmap = imageOrientation(uri)
             binding.imagePost.setImageBitmap(rotatedBitmap)
-            val resizedBitmap = Bitmap.createScaledBitmap(
-                rotatedBitmap,
-                binding.imagePost.width,
-                binding.imagePost.height,
-                true
-            )
             val baos = ByteArrayOutputStream()
-            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos)
+            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos)
             dataImage = baos.toByteArray()
         }
 
@@ -127,7 +129,7 @@ class AddActivity : AppCompatActivity() {
             .child("${post.getId()}.jpeg")
 
         val uploadTask: UploadTask = imageRef.putBytes(dataImage)
-        uploadTask.addOnFailureListener {
+        uploadTask.addOnFailureListener { exception ->
             binding.progressBar.visibility = View.GONE
             Toast.makeText(
                 this,
@@ -138,6 +140,7 @@ class AddActivity : AppCompatActivity() {
             imageRef.downloadUrl.addOnSuccessListener { uri ->
                 post.setImageUrl(uri.toString())
                 if(post.save()){
+                    loadDataUser()
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(
                         this,
@@ -150,9 +153,26 @@ class AddActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadDataUser(){
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot : DataSnapshot) {
+                val user = dataSnapshot.getValue(User::class.java)
+                user?.let {
+                    val numPost = user.getPosts() + 1
+                    user.setPosts(numPost)
+                    user.update()
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                error.toException().printStackTrace()
+            }
+        })
+    }
+
     private fun initializeComponents(){
+        idUser = UserFirebase.getCurrentUser()!!.uid
         storageRef = FirebaseConfiguration.getFirebaseStorage()
+        userRef = FirebaseConfiguration.getFirebaseReference().child("User").child(idUser)
         post = Post()
-        idUser = UserFirebase.getDataCurrentUser()!!.getId()
     }
 }
