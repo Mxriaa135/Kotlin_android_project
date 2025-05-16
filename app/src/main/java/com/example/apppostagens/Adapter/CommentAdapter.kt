@@ -1,42 +1,54 @@
 package com.example.apppostagens.Adapter
 
 import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.apppostagens.Model.Comment
+import com.example.apppostagens.Model.User
 import com.example.apppostagens.R
+import com.example.apppostagens.Utils.FirebaseConfiguration
+import com.example.apppostagens.databinding.CommentBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
-class CommentAdapter(private val list: List<Comment>) : RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
+class CommentAdapter(private val list: List<Comment>) : RecyclerView.Adapter<CommentAdapter.CommentHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.comment, parent, false)
-        return MyViewHolder(itemView)
+    inner class CommentHolder(val binding: CommentBinding): RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentHolder {
+        val binding = CommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CommentHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CommentHolder, position: Int) {
         val comment = list[position]
 
-        Glide.with(holder.itemView.context)
-            .load(comment.getUser().getUserImage())
-            .placeholder(R.drawable.profile)
-            .error(R.drawable.profile)
-            .into(holder.userImage)
+        val userRef = FirebaseConfiguration.getFirebaseReference().child("User")
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(ds: DataSnapshot) {
+                for(snapshot in ds.children){
+                    val user = snapshot.getValue(User::class.java)
+                    user?.let {
+                        holder.binding.userNameComment.text = user.getUsername()
 
-        holder.userName.text = comment.getUser().getUserImage()
-        holder.text.text = comment.getText()
+                        Glide.with(holder.itemView.context)
+                            .load(user.getUserImage())
+                            .placeholder(R.drawable.profile)
+                            .error(R.drawable.profile)
+                            .into(holder.binding.userImage)
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        holder.binding.textComment.text = comment.getText()
+
     }
 
     override fun getItemCount(): Int = list.size
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val userName: TextView = itemView.findViewById(R.id.userNameComment)
-        val userImage: ImageView = itemView.findViewById(R.id.userImage)
-        val text : TextView = itemView.findViewById(R.id.textComment)
-    }
 }
