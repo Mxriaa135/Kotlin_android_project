@@ -25,20 +25,19 @@ class CommentAdapter(private val list: List<Comment>) : RecyclerView.Adapter<Com
     override fun onBindViewHolder(holder: CommentHolder, position: Int) {
         val comment = list[position]
 
-        val userRef = FirebaseConfiguration.getFirebaseReference().child("User")
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(ds: DataSnapshot) {
-                for(snapshot in ds.children){
-                    val user = snapshot.getValue(User::class.java)
-                    user?.let {
-                        holder.binding.userNameComment.text = user.getUsername()
 
-                        Glide.with(holder.itemView.context)
-                            .load(user.getUserImage())
-                            .placeholder(R.drawable.profile)
-                            .error(R.drawable.profile)
-                            .into(holder.binding.userImage)
-                    }
+        val userRef = FirebaseConfiguration.getFirebaseReference().child("User").child(comment.getIdUser())
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                user?.let {
+                    holder.binding.userNameComment.text = user.getUsername()
+
+                    Glide.with(holder.itemView.context)
+                        .load(user.getUserImage())
+                        .placeholder(R.drawable.profile)
+                        .error(R.drawable.profile)
+                        .into(holder.binding.userImage)
                 }
             }
             override fun onCancelled(error: DatabaseError) {
